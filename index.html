@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alessia Ghezzi | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { paper: '#f4ece1', ink: '#1b1214', wine: '#5a1a24', mute: '#7a6a66' },
+  fontFamily: { serif: ['Fraunces', 'Georgia', 'serif'], sans: ['Inter', 'system-ui', 'sans-serif'] } } } }
+</script>
+<style>
+  :root { --ease: cubic-bezier(0.23, 1, 0.32, 1); --dur: 220ms; }
+  html { scroll-behavior: smooth; }
+  body { background: #f4ece1; color: #1b1214; -webkit-font-smoothing: antialiased; }
+  body.locked { overflow: hidden; }
+  .display { font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'opsz' 144; letter-spacing: -0.035em; line-height: .88; }
+
+  #veil { position: fixed; inset: 0; z-index: 50; transition: opacity var(--dur) var(--ease), filter var(--dur) var(--ease); }
+  #veil { background: #e9e6e2 url(img/welcome.jpg) 62% center / cover no-repeat; cursor: none; }
+  #veil .ov { position: absolute; left: clamp(24px, 5vw, 72px); top: clamp(28px, 7vh, 80px); color: #1b1214; pointer-events: none; }
+  #veil .ov h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 300; font-style: italic; letter-spacing: -0.03em; line-height: .92; font-size: clamp(3rem, 9vw, 9rem); font-variation-settings: 'opsz' 144; }
+  #veil .ov p { margin-top: 20px; font-size: 14px; letter-spacing: .02em; color: #5a1a24; }
+  #flood { position: absolute; inset: 0; background: #b3121f; opacity: 0; pointer-events: none; transition: opacity 160ms var(--ease); }
+  #flood.on { opacity: 1; }
+  #brush { position: absolute; left: 0; top: 0; width: 48px; height: 48px; pointer-events: none; opacity: 0; will-change: transform; transition: opacity 120ms var(--ease); }
+  #brush.show { opacity: 1; }
+  #veil canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: none; }
+  #veil.gone { opacity: 0; filter: blur(10px); pointer-events: none; }
+  #skip { position: absolute; right: 24px; bottom: 24px; color: #1b1214; font-size: 13px; padding: 10px 14px; opacity: .7; z-index: 2;
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
+  #skip:hover { opacity: 1; } #skip:active { transform: scale(0.97); }
+
+  .rv { opacity: 0; transform: translateY(14px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); transition-delay: var(--d, 0ms); }
+  .rv.in { opacity: 1; transform: none; }
+
+  .shot { overflow: hidden; display: block; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 240ms var(--ease); }
+  @media (hover: hover) { .shot:hover img { transform: scale(1.025); } }
+
+  .btn { display: inline-flex; align-items: center; gap: 12px; padding: 14px 22px; border-radius: 999px; font-size: 14px;
+    background: var(--ac); color: var(--bg); transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease); }
+  .btn:hover { opacity: .85; } .btn:active { transform: scale(0.97); }
+  .btn svg { transition: transform var(--dur) var(--ease); } .btn:hover svg { transform: translateX(4px); }
+  a:focus-visible, button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv { transform: none; } .shot:hover img, .btn:hover svg { transform: none; } #veil.gone { filter: none; }
+  }
+</style>
+</head>
+<body class="locked font-sans">
+
+<div id="veil" role="dialog" aria-label="Welcome into my mind, paint to move on">
+  <div class="ov"><h2>welcome<br>into my mind</h2><p>paint to move on.</p></div>
+  <canvas id="eraser"></canvas>
+  <div id="flood"></div>
+  <svg id="brush" viewBox="0 0 48 48" aria-hidden="true"><path d="M44 4L18 30" stroke="#1b1214" stroke-width="6" stroke-linecap="round"/><path d="M18 30L12 36" stroke="#cfc6b8" stroke-width="9" stroke-linecap="round"/><path d="M9 32L16 39C13 43 8 46 3 46C4 41 6 35 9 32Z" fill="#b3121f"/></svg>
+  <button id="skip" type="button">Salta</button>
+</div>
+
+<main>
+  <section class="min-h-screen px-6 md:px-12 pt-10 pb-14 flex flex-col justify-between">
+    <header class="flex justify-between text-sm text-mute rv" data-hero>
+      <span>Milano</span><span>Portfolio 2026</span>
+    </header>
+    <div>
+      <h1 class="display text-[clamp(4.5rem,18vw,17rem)] font-light rv" style="--d:40ms" data-hero>
+        Alessia<br><span class="italic text-wine md:ml-[14vw]">Ghezzi</span>
+      </h1>
+      <p class="font-serif text-2xl md:text-3xl leading-snug max-w-xl mt-12 md:ml-[14vw] rv" style="--d:90ms" data-hero>
+        Comunicazione, PR e luxury management. Sei progetti, sei modi di dare voce a un brand.
+      </p>
+    </div>
+    <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-mute rv" style="--d:140ms" data-hero id="index"></nav>
+  </section>
+
+  <div id="progetti"></div>
+
+  <footer class="text-paper" style="background:#17090d px-6 md:px-12 pt-28 pb-12">
+    <p class="display text-[clamp(3rem,11vw,10rem)] font-light">Parliamone.</p>
+    <div class="mt-16 flex flex-col md:flex-row md:justify-between gap-6 text-sm text-paper/60">
+      <div class="flex gap-8">
+        <a class="hover:text-paper transition-colors" href="mailto:tuaemail@esempio.it">tuaemail@esempio.it</a>
+        <a class="hover:text-paper transition-colors" href="https://www.linkedin.com/in/tuo-profilo" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <span>Milano</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+/* bg/fg: colori della sezione, tratti dalle immagini. flip: immagine a destra. ar: proporzione immagine */
+const PROGETTI = [
+  { n:'01', titolo:'Latteria San Marco', sotto:'“Chi gh’ha temp”', ctx:'Brand Strategy & Cultural PR, Milano',
+    desc:"Strategia di riposizionamento digitale per lo storico ristorante milanese. Il concept trasforma il tempo e l'attesa in asset culturali del brand attraverso storytelling e campagne PR.",
+    pdf:'pdf/latteria_san_marco.pdf', img:'img/latteria.jpg', bg:'#1a120b', fg:'#f6ead2', ac:'#e0b04c', flip:false, ar:'16/10' },
+  { n:'02', titolo:'Portrait Scent Atelier', sotto:'Portrait Milano', ctx:'Experiential Luxury & Hospitality, Sole 24 Ore',
+    desc:"Ideazione di un atelier olfattivo di lusso per gli ospiti dell'hotel, per estendere il legame emotivo con il brand tramite fragranze customizzate e strategie di loyalty emotiva.",
+    pdf:'pdf/portrait_scent_atelier.pdf', img:'img/portrait.jpg', bg:'#3b0f1a', fg:'#fff1e0', ac:'#e9c9a0', flip:true, ar:'3/4' },
+  { n:'03', titolo:"Comunicazione d'impresa nell'era digitale", sotto:'Case study Sephora', ctx:'Ricerca Accademica & Digital Strategy, IULM',
+    desc:"Analisi della trasformazione corporate tra social media e Intelligenza Artificiale, con focus sulla reputazione aziendale e un case study dedicato a Sephora.",
+    pdf:'pdf/comunicazione_digitale_sephora.pdf', img:'img/sephora.jpg', bg:'#0a1a33', fg:'#f5ecd7', ac:'#e0b768', flip:false, ar:'4/3' },
+  { n:'04', titolo:'Eight Forces x Galvanina', sotto:'Milano Design Week', ctx:'Brand Activation & Premium Marketing',
+    desc:"Piano HoReCa e experiential marketing per il posizionamento premium di Galvanina, con progettazione di un pop-up evento e strategia di influencer relations.",
+    pdf:'pdf/galvanina_design_week.pdf', img:'img/galvanina.jpg', bg:'#0f6b3a', fg:'#ffffff', ac:'#ffb3c9', flip:true, ar:'16/10' },
+  { n:'05', titolo:'LAGOM by Acne Studios', sotto:'Go-to-Market 2027', ctx:'Brand Extension, Luxury Management',
+    desc:"Concept esperienziale che unisce specialty café e spazio espositivo nel flagship store Acne, traducendo l'estetica scandinava in engagement lifestyle.",
+    pdf:'pdf/acne_studios_lagom.pdf', img:'img/lagom.jpg', bg:'#f2b8c6', fg:'#161214', ac:'#8a2b45', flip:false, ar:'16/10' },
+  { n:'06', titolo:'Wrapped in Wonder', sotto:'Dolce & Gabbana Beauty', ctx:'Integrated Christmas Campaign',
+    desc:"Campagna natalizia immersiva focalizzata sul rituale del gifting di lusso. Strategia omnicanale tra retail activation, storytelling d'autore e italianità.",
+    pdf:'pdf/dg_beauty_christmas.pdf', img:'img/dg.jpg', bg:'#5a0b12', fg:'#f8ecd0', ac:'#d4af37', flip:true, ar:'3/4' }
+];
+const arrow = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>';
+
+document.getElementById('progetti').innerHTML = PROGETTI.map((p, i) => {
+  const portrait = p.ar === '3/4';
+  const imgCols = portrait ? 'md:col-span-5' : 'md:col-span-7';
+  const imgPos = p.flip ? (portrait ? 'md:col-start-8 md:order-2' : 'md:col-start-6 md:order-2') : (portrait ? 'md:col-start-2' : '');
+  const txtCols = portrait ? 'md:col-span-5' : 'md:col-span-4';
+  const txtPos = p.flip ? (portrait ? 'md:col-start-2 md:order-1' : 'md:col-start-1 md:order-1') : (portrait ? 'md:col-start-8' : 'md:col-start-9');
+  return `
+  <section id="p${i+1}" class="px-6 md:px-12 py-20 md:py-32 min-h-screen grid grid-cols-12 gap-x-6 gap-y-12 items-center"
+           style="background:${p.bg};color:${p.fg};--bg:${p.bg};--fg:${p.fg};--ac:${p.ac}">
+    <a href="${p.pdf}" target="_blank" rel="noopener" aria-label="Apri ${p.titolo}"
+       class="shot rv col-span-12 ${imgCols} ${imgPos}" style="aspect-ratio:${p.ar}">
+      <img src="${p.img}" alt="${p.titolo}" loading="lazy">
+    </a>
+    <div class="rv col-span-12 ${txtCols} ${txtPos}" style="--d:60ms">
+      <span class="display italic font-light text-7xl md:text-8xl" style="color:var(--ac)">${p.n}</span>
+      <h2 class="font-serif text-4xl md:text-6xl leading-[0.98] tracking-tight mt-6">${p.titolo}</h2>
+      <p class="font-serif italic text-xl mt-3" style="color:var(--ac)">${p.sotto}</p>
+      <p class="text-sm opacity-60 mt-10 mb-3">${p.ctx}</p>
+      <p class="text-[15px] leading-relaxed max-w-md opacity-90">${p.desc}</p>
+      <a class="btn mt-8" href="${p.pdf}" target="_blank" rel="noopener">Esplora Progetto ${arrow}</a>
+    </div>
+  </section>`;
+}).join('');
+
+document.getElementById('index').innerHTML = PROGETTI.map((p, i) =>
+  `<a class="hover:text-ink transition-colors" href="#p${i+1}">${p.n} ${p.titolo.split(' ').slice(0,2).join(' ')}</a>`).join('');
+
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+document.querySelectorAll('#progetti .rv').forEach(el => io.observe(el));
+
+/* Overlay: pennello rosso */
+const veil = document.getElementById('veil'), cv = document.getElementById('eraser'), ctx = cv.getContext('2d');
+const flood = document.getElementById('flood'), brushEl = document.getElementById('brush');
+const COLS = 20, ROWS = 12, THRESH = 0.5, REDS = ['#b3121f', '#c1121f', '#a50f1b', '#d11a2a'];
+let W, H, cells = new Set(), done = false, last = null, down = false, bristles = [];
+function size() {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cells = new Set();
+}
+function newBristles() {
+  bristles = Array.from({ length: 14 }, (_, k) => ({ o: (k / 13) * 2 - 1 + (Math.random() - .5) * .12, lw: 3 + Math.random() * 6, c: REDS[k % 4], a: .8 + Math.random() * .2 }));
+}
+function paint(x, y) {
+  const w = Math.max(44, Math.min(W, H) * 0.075);
+  const px = last ? last.x : x, py = last ? last.y : y;
+  const dx = x - px, dy = y - py, len = Math.hypot(dx, dy) || 1, nx = -dy / len, ny = dx / len;
+  ctx.lineCap = 'round';
+  ctx.globalAlpha = 1; ctx.strokeStyle = '#b3121f'; ctx.lineWidth = w * 0.75;
+  ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x + 0.01, y); ctx.stroke();
+  for (const b of bristles) {
+    ctx.globalAlpha = b.a; ctx.strokeStyle = b.c; ctx.lineWidth = b.lw;
+    ctx.beginPath(); ctx.moveTo(px + nx * b.o * w * .55, py + ny * b.o * w * .55); ctx.lineTo(x + nx * b.o * w * .55, y + ny * b.o * w * .55); ctx.stroke();
+  }
+  last = { x, y };
+  const r = w * .6;
+  for (let cx = Math.max(0, Math.floor((x - r) / W * COLS)); cx <= Math.min(COLS - 1, Math.floor((x + r) / W * COLS)); cx++)
+    for (let cy = Math.max(0, Math.floor((y - r) / H * ROWS)); cy <= Math.min(ROWS - 1, Math.floor((y + r) / H * ROWS)); cy++) cells.add(cy * COLS + cx);
+  if (cells.size / (COLS * ROWS) > THRESH) enter();
+}
+function enter() {
+  if (done) return; done = true;
+  flood.classList.add('on');
+  document.body.classList.remove('locked');
+  document.querySelectorAll('[data-hero]').forEach(el => el.classList.add('in'));
+  setTimeout(() => veil.classList.add('gone'), 170);
+  setTimeout(() => veil.remove(), 420);
+}
+cv.addEventListener('pointerdown', e => { down = true; last = null; newBristles(); cv.setPointerCapture(e.pointerId); paint(e.clientX, e.clientY); });
+cv.addEventListener('pointermove', e => {
+  if (e.pointerType === 'mouse') { brushEl.classList.add('show'); brushEl.style.transform = `translate3d(${e.clientX - 3}px,${e.clientY - 45}px,0)`; }
+  if (down) paint(e.clientX, e.clientY);
+});
+const up = () => { down = false; last = null; };
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+cv.addEventListener('pointerleave', () => brushEl.classList.remove('show'));
+document.getElementById('skip').addEventListener('click', enter);
+addEventListener('keydown', e => { if (e.key === 'Escape' || e.key === 'Enter') enter(); });
+addEventListener('resize', () => { if (!done) size(); });
+size(); newBristles();
+</script>
+</body>
+</html>
